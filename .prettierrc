@@ -13,8 +13,8 @@
 	],
 
 	"svelteSortOrder": "options-scripts-markup-styles",
-	"svelteStrictMode": true,
+	"svelteStrictMode": false,
 	"svelteBracketNewLine": true,
-	"svelteAllowShorthand": false,
+	"svelteAllowShorthand": true,
 	"svelteIndentScriptAndStyle": true
 }
