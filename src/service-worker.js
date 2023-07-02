@@ -1,3 +1,14 @@
+/**
+ * Read more about Service workers implementation in Svelte:
+ * https://kit.svelte.dev/docs/service-workers
+ *
+ * or
+ *
+ * Watch "SvelteKit | Service Worker" YT tutorial
+ * https://www.youtube.com/watch?v=kVBJKSU7sw8
+ *
+ */
+
 /// <reference types="@sveltejs/kit" />
 import { build, files, version } from '$service-worker';
 

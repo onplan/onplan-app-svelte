@@ -1,0 +1,85 @@
+{
+	"name": "OnPlan",
+	"short_name": "OnPlan",
+	"description": "Work Order Manager",
+	"version": {
+		"number": "4.0.0",
+		"message": "",
+		"__hotfixFilesExample": ["/index.html", "/js/index.js"],
+		"__hotfixAllExample": "*",
+		"hotfixFiles": [
+			"js/caching.js",
+			"js/constants.js",
+			"js/login.js",
+			"js/index.js",
+			"js/workorder.js",
+			"js/lobby.js",
+			"js/appscripts.js",
+			"js/limits/limit.js",
+			"js/limits/limit_render.js",
+			"js/limits/limit_structuralInspection.js",
+			"js/utils/defectform.js",
+			"js/defectreport.js",
+			"js/utils.js",
+			"js/status-bar.js",
+			"js/render.js",
+			"js/constants.js",
+			"js/utils/camera.js",
+			"index.html",
+			"workorder.html",
+			"media/css/app.css",
+			"media/css/index.css",
+			"media/css/workorder.css",
+			"login.html",
+			"media/css/login.css",
+			"media/css/defectreport.css",
+			"media/css/camera.css"
+		]
+	},
+	"start_url": "/",
+	"display": "standalone",
+	"theme_color": "#ffffff",
+	"background_color": "#ffffff",
+	"icons": [
+		{
+			"src": "media/img/manifestIcons/icon-72x72.png",
+			"sizes": "72x72",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-96x96.png",
+			"sizes": "96x96",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-128x128.png",
+			"sizes": "128x128",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-144x144.png",
+			"sizes": "144x144",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-152x152.png",
+			"sizes": "152x152",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-384x384.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "media/img/manifestIcons/icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}
