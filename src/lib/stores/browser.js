@@ -8,8 +8,11 @@
 import { readable, writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
-// "isActuallyOnline" store writable initialization
-const { subscribe, set: setIsActuallyOnline } = writable(true);
+const isOnlineDefaultValue = browser ? window.navigator.onLine : true;
+const isActuallyOnlineDefaultValue = isOnlineDefaultValue;
+
+// "isActuallyOnline" writable store initialization
+const { subscribe, set: setIsActuallyOnline } = writable(isActuallyOnlineDefaultValue);
 
 /**
  * True if connected to wifi/data AND have real internet connection via http checking.
@@ -52,7 +55,7 @@ isActuallyOnline.reCheck();
  * READONLY
  *
  */
-const isOnline = readable(true, function start(set) {
+const isOnline = readable(isOnlineDefaultValue, function start(set) {
 	if (browser) {
 		// try to make it true
 		window.addEventListener('online', () => {
