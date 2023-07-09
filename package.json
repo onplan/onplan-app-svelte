@@ -28,6 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"events": "^3.3.0",
 		"sveltestrap": "^5.10.0"
 	}
 }
