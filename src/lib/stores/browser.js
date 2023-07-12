@@ -6,9 +6,8 @@
  */
 
 import { readable, writable } from 'svelte/store';
-import { browser } from '$app/environment';
 
-const isOnlineDefaultValue = browser ? window.navigator.onLine : true;
+const isOnlineDefaultValue = window.navigator.onLine;
 const isActuallyOnlineDefaultValue = isOnlineDefaultValue;
 
 // "isActuallyOnline" writable store initialization
@@ -28,11 +27,9 @@ const isActuallyOnline = {
 	 * Utility function for checking/updating the latest state of "isActuallyOnline" by triggering a server endpoint
 	 * Downside: this function will be slow if invoked syncronously with slow internet connection or if the server is slow
 	 *
-	 * @returns {boolean} - True if has real internet connection
+	 * @returns {Promise<boolean>} - True if has real internet connection
 	 */
 	reCheck: async () => {
-		if (!browser) return false;
-
 		const realOnline = await fetch(`/api/check-online-status?${new Date().getTime()}`, {
 			mode: 'no-cors'
 		})
@@ -56,17 +53,15 @@ isActuallyOnline.reCheck();
  *
  */
 const isOnline = readable(isOnlineDefaultValue, function start(set) {
-	if (browser) {
-		// try to make it true
-		window.addEventListener('online', () => {
-			set(true);
-			isActuallyOnline.reCheck();
-		});
-		window.addEventListener('offline', () => {
-			set(false);
-			setIsActuallyOnline(false);
-		});
-	}
+	// try to make it true
+	window.addEventListener('online', () => {
+		set(true);
+		isActuallyOnline.reCheck();
+	});
+	window.addEventListener('offline', () => {
+		set(false);
+		setIsActuallyOnline(false);
+	});
 });
 
 export { isOnline, isActuallyOnline };
