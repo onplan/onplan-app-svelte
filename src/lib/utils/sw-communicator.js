@@ -50,7 +50,7 @@ channel.addEventListener('message', (event) => {
  * Request an Action to SW
  *
  * @param {string} actionName - SW Action name
- * @param {* | undefineed} reqPayload - Optional request payload
+ * @param {* | undefined} reqPayload - Optional request payload
  */
 swCommunicator.requestToSw = (actionName, reqPayload = null) => {
 	channel.postMessage({

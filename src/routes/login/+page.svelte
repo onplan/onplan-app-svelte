@@ -4,6 +4,7 @@
 	import { Icon, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'sveltestrap';
 	import { fade } from 'svelte/transition';
 	import { isOnline, isActuallyOnline } from '$lib/stores/browser';
+	import { nukeAppCache } from '$lib/utils';
 	let email = '';
 	let password = '';
 
@@ -57,7 +58,7 @@
 			<Icon name="three-dots-vertical" class="text-white fs-3" />
 		</DropdownToggle>
 		<DropdownMenu class="p-2">
-			<DropdownItem on:click={() => alert('delte')}>
+			<DropdownItem on:click={nukeAppCache}>
 				<Icon name="trash-fill" /> Clear Cache
 			</DropdownItem>
 			<DropdownItem class="mt-2">
