@@ -26,6 +26,7 @@ const canGoOffline = derived(
 
 // Listen to SW latest info and update stores
 swCommunicator.on(SW_ACTIONS.getOfflineAssetsInfo, (data) => {
+	// console.log('received latest offline assets info......');
 	cacheName.set(data.cacheName);
 	offlineAssets.set(data.offlineAssets);
 });

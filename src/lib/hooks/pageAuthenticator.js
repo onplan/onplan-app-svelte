@@ -12,7 +12,7 @@ async function redirect() {
 	const currentPath = get(page)?.url?.pathname;
 	const user = get(authUser);
 
-	if (currentPath) {
+	if (Object.values(APP_PATHNAMES).includes(currentPath)) {
 		if (user) {
 			// Authenticated user
 			if (currentPath === APP_PATHNAMES.login) {
