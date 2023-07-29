@@ -43,9 +43,11 @@ const isActuallyOnline = {
 	}
 };
 
-// Initial checking for real internet connection
-// no need to await since we will not use the returned value
-isActuallyOnline.reCheck();
+if (isOnlineDefaultValue) {
+	// Initial checking for real internet connection
+	// no need to await since we will not use the returned value
+	isActuallyOnline.reCheck();
+}
 
 /**
  * True if connected to wifi/data REGARDLESS if have real internet connection.
