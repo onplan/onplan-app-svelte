@@ -1,8 +1,15 @@
 import { derived, writable } from 'svelte/store';
 import { swCommunicator, SW_ACTIONS } from '$lib/utils/sw-communicator';
 
+/**
+ * Cache storage name.
+ */
 const cacheName = writable(null);
 
+/**
+ * Offline assets files and  metadata from service worker thread.
+ *
+ */
 const offlineAssets = writable({
 	files: [
 		// {
@@ -18,6 +25,12 @@ const offlineAssets = writable({
 	}
 });
 
+/**
+ * True if user can go offline safely.
+ *
+ * It depends to `Offline assets` if already cached 100% by the service worker.
+ * If `Offline assets` not cached properly, allowing `Offline mode` feature will run amok
+ */
 const canGoOffline = derived(
 	offlineAssets,
 	($offlineAssets) => $offlineAssets?.metadata?.canGoOffline || false,
@@ -31,7 +44,11 @@ swCommunicator.on(SW_ACTIONS.getOfflineAssetsInfo, (data) => {
 	offlineAssets.set(data.offlineAssets);
 });
 
-// helper function
+/**
+ * Request the latest info from service worker.
+ *
+ * This will update `offlineAssets` store value
+ */
 const requestOfflineLatestInfo = () => {
 	swCommunicator.requestToSw(SW_ACTIONS.getOfflineAssetsInfo);
 };
@@ -39,11 +56,11 @@ const requestOfflineLatestInfo = () => {
 requestOfflineLatestInfo();
 
 export {
-	// Stores
+	// Stores/States
 	cacheName,
 	offlineAssets,
 	canGoOffline,
 
-	// helper functions
+	// Util functions
 	requestOfflineLatestInfo
 };
