@@ -75,7 +75,18 @@ self.addEventListener('fetch', (event) => {
 		 * CACHING STRATEGY: `Cache first, falling back to network`
 		 */
 		if (OFFLINE_ASSETS.includes(url.pathname)) {
-			return cache.match(url.pathname, { ignoreSearch: true });
+			return cache.match(url.pathname, { ignoreSearch: true }).then(function (cacheResponse) {
+				if (cacheResponse) {
+					// console.log(`from SW: ${url.pathname}`);
+					return cacheResponse;
+				} else {
+					// console.log(`from network: ${url.pathname}`);
+					return fetch(url.pathname).then(function (networkResponse) {
+						cache.put(url.pathname, networkResponse.clone());
+						return networkResponse;
+					});
+				}
+			});
 		}
 
 		/**
