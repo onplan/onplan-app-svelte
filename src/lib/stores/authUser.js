@@ -5,6 +5,8 @@
 
 import { writable } from 'svelte/store';
 
+import { workOnline } from '$lib/stores/connectivity';
+
 const AUTH_USER_KEY = 'advantageLoggedInUser';
 
 let persistedUser = localStorage.getItem(AUTH_USER_KEY);
@@ -58,9 +60,15 @@ const authUser = {
 	},
 
 	/**
-	 * Logout user. Delete auth user data.
+	 * Logout user.
+	 *
+	 * Delete auth user data locally.
 	 */
-	logout: () => set(null)
+	logout: () => {
+		// work online to delete `workingOfflineSince`
+		workOnline();
+		set(null);
+	}
 };
 
 export default authUser;
