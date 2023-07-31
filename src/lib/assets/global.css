@@ -1,0 +1,17 @@
+/*
+*
+* Global CSS classes goes here...
+*
+* Note: If you will add css class that is used only on a single component,
+* just add it inside the component's style tag.
+*
+*/
+
+/* Mouse cursors */
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.cursor-not-allowed {
+	cursor: not-allowed;
+}
