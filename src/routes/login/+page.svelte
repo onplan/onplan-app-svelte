@@ -3,7 +3,7 @@
 
 	import { Icon, ButtonDropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'sveltestrap';
 	import { fade } from 'svelte/transition';
-	import { isOnline, isActuallyOnline } from '$lib/stores/browser';
+	import { isOnline, isActuallyOnline } from '$lib/stores/connectivity';
 	import { nukeAppCache } from '$lib/utils';
 	import authUser from '$lib/stores/authUser';
 	import sampleAuthUserObj from '$lib/temp/sampleAuthUserObj';
@@ -72,7 +72,7 @@
 
 <div class="container-fluid">
 	<ButtonDropdown class="mt-3" style="display: list-item;">
-		<DropdownToggle tag="div" class="float-end" style="cursor: pointer;">
+		<DropdownToggle tag="div" class="float-end cursor-pointer">
 			<Icon name="three-dots-vertical" class="text-white fs-3" />
 		</DropdownToggle>
 		<DropdownMenu class="p-2">

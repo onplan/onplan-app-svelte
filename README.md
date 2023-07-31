@@ -41,7 +41,7 @@ Application states that are reactive.
 2. **isActuallyOnline** - True if connected to wifi/data AND have real internet connection via http checking. With `reCheck()` utility function for updating the latest state. _READONLY._
 
 ```js
-import { isOnline, isActuallyOnline } from '$lib/stores/browser';
+import { isOnline, isActuallyOnline } from '$lib/stores/connectivity';
 
 // Note: Prefix stores with $ to access their values
 consosle.log($isOnline); // log true or false
