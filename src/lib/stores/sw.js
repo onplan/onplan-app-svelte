@@ -53,6 +53,17 @@ const requestOfflineLatestInfo = () => {
 	swCommunicator.requestToSw(SW_ACTIONS.getOfflineAssetsInfo);
 };
 
+offlineAssets.subscribe((latest) => {
+	// console.log(`canGoOffline: ${latest?.metadata?.canGoOffline}`);
+	const cannot = !latest?.metadata?.canGoOffline;
+
+	if (cannot) {
+		// Re-request if `canGoOffline` is false
+		setTimeout(requestOfflineLatestInfo, 2000);
+	}
+});
+
+// Initial offline info req
 requestOfflineLatestInfo();
 
 export {

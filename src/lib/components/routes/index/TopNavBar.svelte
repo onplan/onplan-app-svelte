@@ -9,7 +9,7 @@
 		workOffline,
 		workOnline
 	} from '$lib/stores/connectivity';
-	import { canGoOffline } from '$lib/stores/sw';
+	import { canGoOffline, offlineAssets } from '$lib/stores/sw';
 
 	import { fade } from 'svelte/transition';
 	import authUser from '$lib/stores/authUser';
@@ -101,6 +101,10 @@
 						{:else}
 							<!-- Not all offline files are cached locally,  -->
 							Offline Mode Not Ready
+							<small class="text-success">
+								<i class="bi bi-download" />
+								{$offlineAssets?.metadata?.cached_percentage}%
+							</small>
 						{/if}
 					</DropdownItem>
 					<DropdownItem class="py-2" on:click={() => window.location.reload()}>
