@@ -10,6 +10,7 @@
 		workOnline
 	} from '$lib/stores/connectivity';
 	import { canGoOffline, offlineAssets } from '$lib/stores/sw';
+	import WorkOrdersFilterDropdown from '$lib/components/routes/index/WorkOrdersFilterDropdown.svelte';
 
 	import { fade } from 'svelte/transition';
 	import authUser from '$lib/stores/authUser';
@@ -134,11 +135,7 @@
 	<!-- WO filter, Search input, delete, edit, add WO icons -->
 	<div class="row container-fluid m-0 px-1">
 		<div class="col-md-1 col-sm-2 col-2 bg-light">
-			<div class="text-center text-primary">
-				<i class="bi bi-filter fs-3" />
-				<br />
-				<div class="filter-status">Status</div>
-			</div>
+			<WorkOrdersFilterDropdown />
 		</div>
 
 		<div class="col-md-6 col-sm-4 col-8 bg-light">
@@ -180,12 +177,6 @@
 <style>
 	.disabled {
 		opacity: 0.3;
-	}
-
-	.filter-status {
-		font-size: 10px;
-		text-align: center;
-		white-space: nowrap;
 	}
 
 	/* dropdown items bootstrap icons */

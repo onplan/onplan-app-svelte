@@ -15,3 +15,24 @@
 .cursor-not-allowed {
 	cursor: not-allowed;
 }
+
+.dropdown-menu {
+	--bs-dropdown-menu-width: 250px;
+	width: var(--bs-dropdown-menu-width);
+	animation: 0.25s dropdown-fade-in;
+	border-width: 0px;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+	max-height: 520px;
+	overflow-y: auto;
+}
+
+@keyframes dropdown-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
