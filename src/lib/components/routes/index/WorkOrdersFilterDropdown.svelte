@@ -21,6 +21,7 @@
 		label
 	}));
 
+	// Fields value holder
 	let _myJobsFilter, _assetFilter, _statusFilter, _scheduledFromDate, _scheduledToDate;
 
 	// When opening filter dropdown , update the filter fields values from `filterFieldsSetting` store
@@ -33,7 +34,7 @@
 			value: 0,
 			label: 'All'
 		};
-		_statusFilter = ffs.statusFilter;
+		_statusFilter = ffs.statusFilter.map((status) => statusItems.find((el) => el.value === status));
 		_scheduledFromDate = ffs.scheduledFromDate;
 		_scheduledToDate = ffs.scheduledToDate;
 	}
