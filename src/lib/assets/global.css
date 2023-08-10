@@ -16,6 +16,10 @@
 	cursor: not-allowed;
 }
 
+.row {
+	--bs-gutter-x: 0;
+}
+
 .dropdown-menu {
 	--bs-dropdown-menu-width: 250px;
 	width: var(--bs-dropdown-menu-width);
