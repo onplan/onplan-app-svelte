@@ -25,19 +25,19 @@
 			<i class="bi bi-three-dots fs-3" />
 		</div>
 		<div class="d-none d-sm-block">
-			<div class="mt-1 me-md-2">
+			<div class="mt-1 mx-md-2">
 				<span class="me-2 text-success">
 					Last Updated 12:58 19 Jul
 					<i class="bi bi-arrow-repeat fs-6" />
 				</span>
 				<span class="float-end">
-					<button class="btn border-0 px-1 px-md-2 px-1 px-lg-3 py-0 disabled">
+					<button class="btn border-0 px-1 px-md-1 px-1 px-lg-3 py-0 disabled">
 						<i class="bi bi-trash3-fill fs-5" />
 					</button>
 					<button class="btn border-0 px-1 px-md-2 px-2 px-lg-3 py-0">
 						<i class="bi bi-pencil-fill fs-5" />
 					</button>
-					<button class="btn border-0 px-1 px-md-2 px-1 px-lg-3 py-0">
+					<button class="btn border-0 px-1 px-md-1 px-1 px-lg-3 py-0">
 						<i class="bi bi-plus-circle-fill fs-5" />
 					</button>
 				</span>
