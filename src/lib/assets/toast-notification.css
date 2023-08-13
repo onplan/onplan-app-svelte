@@ -1,0 +1,13 @@
+/* Override  `svelte-notifications` library css styling */
+
+.default-position-style-top-left,
+.default-position-style-top-center,
+.default-position-style-top-right {
+	top: 16% !important;
+}
+
+.default-position-style-bottom-left,
+.default-position-style-bottom-center,
+.default-position-style-bottom-right {
+	bottom: 7% !important;
+}
