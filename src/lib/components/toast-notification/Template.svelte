@@ -87,4 +87,9 @@
 		--bs-toast-bg: rgba(255, 255, 255, 1);
 		border-width: 0.7px;
 	}
+
+	.toast-header {
+		border-bottom-left-radius: calc(var(--bs-toast-border-radius) - var(--bs-toast-border-width));
+		border-bottom-right-radius: calc(var(--bs-toast-border-radius) - var(--bs-toast-border-width));
+	}
 </style>
