@@ -78,7 +78,7 @@
 		/>
 	</div>
 	{#if description}
-		<div class="toast-body">{description}</div>
+		<div class="toast-body">{@html description}</div>
 	{/if}
 </div>
 

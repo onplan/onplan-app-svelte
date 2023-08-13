@@ -28,7 +28,7 @@ const setNotificationContext = (contextObject) => {
  * @param options.type - One of these values: `success`, `info`, `warning`, `error`
  * @param options.heading - Heading text.
  * @param options.headingRight - Optional. Heading text on the right.
- * @param options.description - Optional. Description text
+ * @param options.description - Optional. Description tex. Also accept html string.
  * @param options.removeAfter - Optional. Millisecond before removing the toast.
  * @param options.boostrapIcon - Optional. Bootstrap icon name Eg: `bi-check` . See https://icons.getbootstrap.com for the list of icons
  *
