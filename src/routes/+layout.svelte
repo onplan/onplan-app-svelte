@@ -6,6 +6,7 @@
 
 	import '$lib/assets/root.css';
 	import '$lib/assets/global.css';
+	import ToastWrapper from '$lib/components/toast-notification/ToastWrapper.svelte';
 </script>
 
 <!-- ROOT LAYOUT -->
@@ -17,4 +18,7 @@
 	<a href="/debug/caching">D-Caching</a>
 </nav> -->
 
-<slot />
+<ToastWrapper>
+	<!-- Main Content -->
+	<slot />
+</ToastWrapper>

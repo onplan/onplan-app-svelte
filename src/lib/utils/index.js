@@ -54,6 +54,8 @@ export const nukeAppCache = async () => {
 		}
 	}
 
+	// TODO: Add deleting/clearing of local caches
+
 	// Reload the App
 	// Once reloaded, this will start a new SW session and will cache needed asset files for offline mode.
 	window.location.reload();
