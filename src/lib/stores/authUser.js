@@ -5,7 +5,8 @@
 
 import { writable } from 'svelte/store';
 
-import { workOnline } from '$lib/stores/connectivity';
+import { clearWorkingOfflineSince } from '$lib/stores/connectivity';
+import { toast } from '$lib/utils/toast-notification';
 
 const AUTH_USER_KEY = 'advantageLoggedInUser';
 
@@ -57,6 +58,16 @@ const authUser = {
 			throw new Error('Cannot login empty user data');
 		}
 		set(newUserData);
+
+		// Welcome message
+		toast({
+			heading: 'Your now logged in',
+			description: `Welcome back ${newUserData?.displayName || ''} !`,
+			type: 'success',
+			position: 'bottom-right',
+			boostrapIcon: 'bi-person-check-fill',
+			removeAfter: 8000
+		});
 	},
 
 	/**
@@ -65,8 +76,7 @@ const authUser = {
 	 * Delete auth user data locally.
 	 */
 	logout: () => {
-		// work online to delete `workingOfflineSince`
-		workOnline();
+		clearWorkingOfflineSince();
 		set(null);
 	}
 };

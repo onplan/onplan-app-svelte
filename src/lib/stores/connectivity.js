@@ -10,6 +10,10 @@
  */
 
 import { readable, writable, derived, get } from 'svelte/store';
+import { toast, closeToast } from '$lib/utils/toast-notification';
+
+const ONLINE_TOAST_ID = 'online-mode';
+const OFFLINE_TOAST_ID = 'offline-mode';
 
 // Todo: Add the ff: state for more meaningful states
 // `wantToWorkOffline` - True if user explicitly click `Work Offline`, and not because internet connection is gone.
@@ -81,11 +85,27 @@ const isWorkingOffline = derived(workingOfflineSince, ($workingOfflineSince) =>
  * Set the App to Offline mode.
  *
  */
-const workOffline = () => {
+const workOffline = (internetGone = false) => {
 	if (!get(isWorkingOffline)) {
 		const now = Date.now();
 		localStorage.setItem(WORKING_OFFLINE_SINCE_KEY, JSON.stringify(now));
 		workingOfflineSince.set(now);
+
+		toast({
+			heading: 'You are working Offline now',
+			id: OFFLINE_TOAST_ID,
+			description:
+				internetGone === true
+					? 'There is no internet connection. Check your wifi/data connection.'
+					: null,
+			type: 'error',
+			position: 'bottom-right',
+			boostrapIcon: 'bi-cloud-slash',
+			removeAfter: internetGone === true ? 10000 : 5000
+		});
+
+		// Force to close Online toast if floating
+		closeToast(ONLINE_TOAST_ID);
 	}
 };
 
@@ -95,6 +115,22 @@ const workOffline = () => {
  * Deletes saved `workingOfflineSince` data in the localstorage
  */
 const workOnline = () => {
+	clearWorkingOfflineSince();
+
+	toast({
+		heading: 'You are working Online now',
+		id: ONLINE_TOAST_ID,
+		type: 'success',
+		position: 'bottom-right',
+		boostrapIcon: 'bi-cloud-fill',
+		removeAfter: 5000
+	});
+
+	// Force to close Offline toast if floating
+	closeToast(OFFLINE_TOAST_ID);
+};
+
+const clearWorkingOfflineSince = () => {
 	workingOfflineSince.set(null);
 	localStorage.removeItem(WORKING_OFFLINE_SINCE_KEY);
 };
@@ -140,7 +176,7 @@ const isActuallyOnline = {
 isActuallyOnline.subscribe((newIsActuallyOnline) => {
 	// Force the user to Work Offline if disconnected to internet
 	if (!newIsActuallyOnline) {
-		workOffline();
+		workOffline(true);
 	}
 });
 
@@ -177,5 +213,6 @@ export {
 
 	// Util functions
 	workOffline,
-	workOnline
+	workOnline,
+	clearWorkingOfflineSince
 };
