@@ -9,6 +9,7 @@
 
 	let bIcon = '';
 	let textColor = '';
+	let borderColor = '';
 
 	const { type, boostrapIcon, heading, headingRight, description } = notification;
 
@@ -16,21 +17,25 @@
 		case 'success':
 			bIcon = 'bi-check-circle-fill';
 			textColor = 'text-success';
+			borderColor = 'border-success';
 			break;
 
 		case 'info':
 			bIcon = 'bi-info-circle-fill';
 			textColor = 'text-primary';
+			borderColor = 'border-primary';
 
 			break;
 		case 'warning':
 			bIcon = 'bi-exclamation-circle-fill';
 			textColor = 'text-warning';
+			borderColor = 'border-warning';
 
 			break;
 		case 'error':
 			bIcon = 'bi-exclamation-triangle-fill';
 			textColor = 'text-danger';
+			borderColor = 'border-danger';
 
 			break;
 
@@ -50,7 +55,7 @@
   Based on Bootstrap 5 toast : https://getbootstrap.com/docs/5.2/components/toasts/
 -->
 <div
-	class="toast show m-1"
+	class={`toast show m-1 ${borderColor}`}
 	role="alert"
 	aria-live="assertive"
 	aria-atomic="true"
@@ -76,3 +81,10 @@
 		<div class="toast-body">{description}</div>
 	{/if}
 </div>
+
+<style>
+	:global(.toast) {
+		--bs-toast-bg: rgba(255, 255, 255, 1);
+		border-width: 0.7px;
+	}
+</style>
