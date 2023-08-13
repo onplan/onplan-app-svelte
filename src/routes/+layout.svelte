@@ -4,8 +4,11 @@
 	 *
 	 */
 
+	//  Global css
 	import '$lib/assets/root.css';
 	import '$lib/assets/global.css';
+	import '$lib/assets/toast-notification.css';
+
 	import ToastWrapper from '$lib/components/toast-notification/ToastWrapper.svelte';
 </script>
 
