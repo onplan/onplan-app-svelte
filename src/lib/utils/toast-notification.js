@@ -1,3 +1,9 @@
+import { get } from 'svelte/store';
+
+/**
+ * Will hold`svelte-notifications` context object (considered also as svelte store)
+ *
+ */
 let notificationContext = null;
 
 /**
@@ -30,7 +36,18 @@ const setNotificationContext = (contextObject) => {
 const toast = (options) => {
 	if (!notificationContext) {
 		console.error('toast(): notificationContext not ready.');
+		return;
 	}
+
+	// If the notification ID is active, do not proceed because
+	// the `addNotification()` will throw error and brick the app
+	if (options?.id) {
+		const activeNotifs = get(notificationContext);
+		if (activeNotifs?.find((notif) => notif.id === options.id)) {
+			return;
+		}
+	}
+
 	notificationContext?.addNotification({
 		position: 'bottom-right', // default position
 		...options
@@ -44,6 +61,7 @@ const toast = (options) => {
 const closeToast = (id) => {
 	if (!notificationContext) {
 		console.error('closeToast(): notificationContext not ready.');
+		return;
 	}
 	notificationContext?.removeNotification(id);
 };
@@ -54,6 +72,7 @@ const closeToast = (id) => {
 const clearAllToasts = () => {
 	if (!notificationContext) {
 		console.error('clearAllToasts(): notificationContext not ready.');
+		return;
 	}
 	notificationContext?.clearNotifications();
 };
