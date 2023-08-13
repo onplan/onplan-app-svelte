@@ -1,7 +1,7 @@
 {
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"workbench.colorTheme": "Default Dark Modern",
+	"workbench.colorTheme": "Default Dark+",
 
 	"[svelte]": {
 		"editor.defaultFormatter": "svelte.svelte-vscode",
