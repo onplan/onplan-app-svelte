@@ -18,7 +18,7 @@ const setNotificationContext = (contextObject) => {
  *
  * @param options - Toast options
  * @param options.id - Optional identifier. Use for programatic closing of the toast.
- * @param options.position - One of these values: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`
+ * @param options.position - One of these values: `top-left`, `top-center`, `top-right`, `bottom-left`, `bottom-center`, `bottom-right`. Default to `bottom-right`
  * @param options.type - One of these values: `success`, `info`, `warning`, `error`
  * @param options.heading - Heading text.
  * @param options.headingRight - Optional. Heading text on the right.
@@ -31,7 +31,10 @@ const toast = (options) => {
 	if (!notificationContext) {
 		console.error('toast(): notificationContext not ready.');
 	}
-	notificationContext?.addNotification({ ...options });
+	notificationContext?.addNotification({
+		position: 'bottom-right', // default position
+		...options
+	});
 };
 
 /**
