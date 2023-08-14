@@ -48,6 +48,7 @@ const badGatewayMode = () => {
 };
 
 /**
+ * Send AJAX request to Builder server
  *
  * @param {string} requestUri -  Builder server api path
  * @param {Object} variables - Body variables
