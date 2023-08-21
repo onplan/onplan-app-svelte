@@ -140,18 +140,21 @@ const clearWorkingOfflineSince = () => {
 const isOnlineDefaultValue = window.navigator.onLine;
 const isActuallyOnlineDefaultValue = isOnlineDefaultValue;
 
-// "isActuallyOnline" writable store initialization
-const { subscribe, set: setIsActuallyOnline } = writable(isActuallyOnlineDefaultValue);
+/**
+ * `_isActuallyOnline` Writtable store for the `isActuallyOnline` Custom store preparation
+ *
+ */
+const _isActuallyOnline = writable(isActuallyOnlineDefaultValue);
 
 /**
  * True if connected to wifi/data AND have real internet connection via http checking.
- * READONLY
  *
+ * READONLY
  */
 const isActuallyOnline = {
 	// convert writable store to a custom store
 	// to restrict updating state from any part of the app.
-	subscribe,
+	subscribe: _isActuallyOnline.subscribe,
 
 	/**
 	 * Utility function for checking/updating the latest state of "isActuallyOnline" by triggering a server endpoint
@@ -167,7 +170,7 @@ const isActuallyOnline = {
 			.catch(() => false); // no real internet, something went wrong, server is down
 
 		// Update isActuallyOnline
-		setIsActuallyOnline(realOnline);
+		_isActuallyOnline.set(realOnline);
 
 		return realOnline;
 	}
@@ -188,8 +191,8 @@ if (isOnlineDefaultValue) {
 
 /**
  * True if connected to wifi/data REGARDLESS if have real internet connection.
- * READONLY
  *
+ * READONLY
  */
 const isOnline = readable(isOnlineDefaultValue, function start(set) {
 	// try to make it true
@@ -199,7 +202,7 @@ const isOnline = readable(isOnlineDefaultValue, function start(set) {
 	});
 	window.addEventListener('offline', () => {
 		set(false);
-		setIsActuallyOnline(false);
+		_isActuallyOnline.set(false);
 	});
 });
 
@@ -208,10 +211,11 @@ export {
 	isOnline,
 	isActuallyOnline,
 	isWorkingOffline,
+	// Offline info ...
 	workingOfflineSince,
 	workingOfflineSinceTimer,
 
-	// Util functions
+	// Util functions ...
 	workOffline,
 	workOnline,
 	clearWorkingOfflineSince
