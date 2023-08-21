@@ -16,7 +16,7 @@
 	import installPWA from '$lib/utils/installPWA';
 
 	$: console.log(`isOnline: ${$isOnline} - isActuallyOnline: ${$isActuallyOnline}`);
-	$: console.log(`workingOfflineSinceTimer: ${$workingOfflineSinceTimer}`);
+	// $: console.log(`workingOfflineSinceTimer: ${$workingOfflineSinceTimer}`); // Run every second
 	$: console.log(`authUser: `, $authUser);
 </script>
 

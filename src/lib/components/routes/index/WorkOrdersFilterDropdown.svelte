@@ -5,11 +5,12 @@
 	import { WORK_ORDER_STATUS } from '$lib/utils/constants';
 	import filterFieldsSetting from '$lib/stores/work-order/filterFieldsSetting';
 	import { get } from 'svelte/store';
+	import { loadWorkOrders } from '$lib/stores/work-order/workorderLists';
 
 	let isOpen = false;
 	const toggle = () => (isOpen = !isOpen);
 
-	// Options
+	// Todo: Options should come from cached Asset lists
 	let assetItems = [
 		{ value: 0, label: 'All' },
 		{ value: 1, label: 'One' },
@@ -58,8 +59,8 @@
 
 		toggle();
 
-		// TODO:
-		// trigger filtering of workorders in the WO lists/Fetching latest WOs using the latest filter
+		// Trigger loadWorkOrders after updating filter switches
+		loadWorkOrders();
 	}
 </script>
 
