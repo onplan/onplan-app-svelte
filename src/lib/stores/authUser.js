@@ -10,13 +10,17 @@ import { toast } from '$lib/utils/toast-notification';
 
 const AUTH_USER_KEY = 'advantageLoggedInUser';
 
-let persistedUser = localStorage.getItem(AUTH_USER_KEY);
-
-// create a `writtable store` for the `Custom store`
-const { subscribe, set } = writable(persistedUser ? JSON.parse(persistedUser) : null);
+/**
+ * `_authUser` Writtable store for the `authUser` Custom store preparation
+ */
+const _authUser = writable(null, (set) => {
+	// Initialization on 1st subscriber
+	let persistedUser = localStorage.getItem(AUTH_USER_KEY);
+	set(persistedUser ? JSON.parse(persistedUser) : null);
+});
 
 // Update localstorage once authUser store is updated
-subscribe((authUser) => {
+_authUser.subscribe((authUser) => {
 	localStorage.setItem(AUTH_USER_KEY, authUser ? JSON.stringify(authUser) : '');
 });
 
@@ -46,7 +50,7 @@ subscribe((authUser) => {
  *
  */
 const authUser = {
-	subscribe,
+	subscribe: _authUser.subscribe,
 
 	/**
 	 * Login and save authenticated user data
@@ -57,12 +61,12 @@ const authUser = {
 		if (!newUserData) {
 			throw new Error('Cannot login empty user data');
 		}
-		set(newUserData);
+		_authUser.set(newUserData);
 
 		// Welcome message
 		toast({
 			heading: 'Your now logged in',
-			description: `Welcome back ${newUserData?.displayName || ''} !`,
+			description: `Welcome back <b class="text-secondary">${newUserData?.displayName || ''}</b> !`,
 			type: 'success',
 			position: 'bottom-right',
 			boostrapIcon: 'bi-person-check-fill',
@@ -77,7 +81,7 @@ const authUser = {
 	 */
 	logout: () => {
 		clearWorkingOfflineSince();
-		set(null);
+		_authUser.set(null);
 	}
 };
 

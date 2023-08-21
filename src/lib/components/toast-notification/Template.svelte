@@ -5,7 +5,7 @@
 	// Props passed by `svelte-notifications'
 	export let notification = {};
 	export let onRemove = null;
-	export let withoutStyles = false;
+	// export let withoutStyles = false;
 
 	let bIcon = '';
 	let textColor = '';
