@@ -16,7 +16,7 @@
 
   Contains all viewable WOs based on the filter settings
 -->
-<ListGroup flush class="mt-md-1">
+<ListGroup flush class="mt-md-1" style="min-height: 100vh !important;">
 	<!-- CONTINUE HERE ....... -->
 	{#each $WOLists as wo (wo.id)}
 		{@const woData = new WorkOrderClass(wo)}
