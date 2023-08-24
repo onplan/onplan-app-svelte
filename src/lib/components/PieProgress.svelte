@@ -4,11 +4,15 @@
 	 *
 	 */
 	export let percentage;
+	export let statusColor;
 </script>
 
 <span>
 	<div class="pie no-round" style="--p:100;--c:#eee;--b:4px; top: -7px; right: -43px;" />
-	<div class="pie no-round" style="--p:{percentage};--c:#ffc107;--b:4px; top: -7px; right: -4px;" />
+	<div
+		class="pie no-round"
+		style="--p:{percentage};--c:{statusColor};--b:4px; top: -7px; right: -4px;"
+	/>
 </span>
 
 <style>

@@ -1,56 +1,92 @@
 <script>
-	import { ListGroup, ListGroupItem } from 'sveltestrap';
 	import PieProgress from '$lib/components/PieProgress.svelte';
+	import { ListGroup, ListGroupItem } from 'sveltestrap';
+
+	import { WOLists, isLoadingWOLists } from '$lib/stores/work-order/workorderLists';
+	import { asDate } from '$lib/utils';
+
+	import WorkOrderStatus from '$lib/components/render/WorkOrderStatus.svelte';
+	import WorkOrderClass from '$lib/utils/class/WorkOrderClass';
 </script>
 
+<!--
+  @component
+
+  Work Order Lists
+
+  Contains all viewable WOs based on the filter settings
+-->
 <ListGroup flush class="mt-md-1">
-	{#each 'test test test test'.split('') as name, index (index)}
+	<!-- CONTINUE HERE ....... -->
+	{#each $WOLists as wo (wo.id)}
+		{@const woData = new WorkOrderClass(wo)}
+		{@const {
+			totaStepsCount,
+			p1DefectsCount,
+			p2DefectsCount,
+			p3DefectsCount,
+			completedStepsCount
+		} = woData.getStepsCountDetails()}
+
 		<ListGroupItem>
 			<div class="work-order mt-2">
 				<div class="clearfix" style="height: 40px;">
-					<span class="badge rounded-pill bg-danger float-start"> DISAPPROVED </span>
+					<WorkOrderStatus
+						status={wo.status}
+						completionMode={wo?.customer?.isWorkOrderFinalisationRequired}
+					/>
 
 					<p class="float-end">
 						<span class="wo-date">
 							<i class="bi bi-clock" />
-							<small> 25 Apr 2023 </small>
+							<small> {asDate(woData.getDisplayDate())} </small>
 						</span>
-						<PieProgress percentage={75} />
+						<PieProgress percentage={wo.progress.percent} statusColor={woData.getStatusColor()} />
 					</p>
 				</div>
 
-				<p class="wo-title my-0">testing flag</p>
-				<div>750 Hours Welder Inspection - 750HR</div>
+				<p class="wo-title my-0">{wo.workOrderNumber}</p>
+
+				<div>{woData.getTaskDetails()}</div>
 
 				<div class="mt-1">
 					<i class="bi bi-gear-fill text-muted" />
-					<strong>HT521</strong>
-					- Komatsu 930E-4 Haul Truck
+					<strong>{wo.customerAssetList.assetFloc}</strong>
+					- {wo.customerAssetList.assetName}
 				</div>
 
 				<div class="clearfix mt-1">
-					<div class="badge bg-secondary bg-opacity-25 text-dark rounded-1 mt-1">930E-4</div>
+					<div class="badge bg-secondary bg-opacity-25 text-dark rounded-1 mt-1">
+						{wo.modelNumber}
+					</div>
 					<div class="float-end mt-1">
-						<small class="">Fording River</small>
+						<small class=""> {wo.customer.customerSite} </small>
 					</div>
 				</div>
 
 				<div class="clearfix mt-1">
 					<div class="float-start">
 						<i class="bi bi-check-square-fill text-success text-opacity-75" />
-						<small class="ms-1">2/3</small>
+						<small class="ms-1">{completedStepsCount}/{totaStepsCount}</small>
 
 						<span class="ms-2 badge rounded-pill bg-danger p1to3">P1</span>
-						<small class="ms-1">0</small>
+						<small class="ms-1">{p1DefectsCount}</small>
 
 						<span class="ms-2 badge rounded-pill bg-warning p1to3">P2</span>
-						<small class="ms-1">0</small>
+						<small class="ms-1">{p2DefectsCount}</small>
 
 						<span class="ms-2 badge rounded-pill bg-secondary p1to3">P3</span>
-						<small class="ms-1">0</small>
+						<small class="ms-1">{p3DefectsCount}</small>
 					</div>
 					<div class="float-end">
-						<i class="bi bi-cloud-check-fill text-success text-opacity-75" />
+						<!--  `wo.saved` wont exist if saved, or will with saved = 1 temporary ('saved' does not get returned from server) -->
+						{#if wo.saved !== null && Number(wo.saved) === 0}
+							<!-- WO Not Synced -->
+							<i class="bi bi-cloud-slash text-danger" />
+						{:else}
+							<!-- WO Synced to server-->
+							<i class="bi bi-cloud-check-fill text-success text-opacity-75" />
+						{/if}
 					</div>
 				</div>
 			</div>

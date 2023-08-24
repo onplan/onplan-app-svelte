@@ -14,6 +14,7 @@
 
 import { cacheName } from '$lib/stores/sw';
 import { get } from 'svelte/store';
+import { MONTH_NAMES } from './constants';
 
 /**
  * Clear applicaion cache,
@@ -59,4 +60,21 @@ export const nukeAppCache = async () => {
 	// Reload the App
 	// Once reloaded, this will start a new SW session and will cache needed asset files for offline mode.
 	window.location.reload();
+};
+
+/**
+ * Format Datetime
+ *
+ * @param {string} Datetime
+ * @returns {string} Formatted date E.g.: `03 Sep 2021`
+ */
+export const asDate = (date) => {
+	if (date) {
+		const jsDate = date.split(/[- T]/);
+		const month = MONTH_NAMES[parseInt(jsDate[1] - 1, 10)];
+
+		return `${jsDate[2]} ${month.MM} ${jsDate[0]}`;
+	}
+
+	return '';
 };
