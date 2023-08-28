@@ -40,6 +40,47 @@
 		_scheduledToDate = ffs.scheduledToDate;
 	}
 
+	let noFilter = false;
+	let filterLabel = '';
+
+	// Update `filterLabel` when `$filterFieldsSetting` store changes
+	$: {
+		const { assetFilter, statusFilter, scheduledToDate, scheduledFromDate, myJobsFilter } =
+			$filterFieldsSetting;
+
+		const appliedFilters = [];
+
+		if (assetFilter > 0) {
+			appliedFilters.push('Asset');
+		}
+
+		if (statusFilter?.length) {
+			appliedFilters.push('Status');
+		}
+
+		if (scheduledToDate) {
+			appliedFilters.push('To Date');
+		}
+
+		if (scheduledFromDate) {
+			appliedFilters.push('From Date');
+		}
+
+		if (myJobsFilter) {
+			appliedFilters.push('My Jobs');
+		}
+
+		noFilter = false;
+		filterLabel = 'Multiple';
+
+		if (appliedFilters?.length === 1) {
+			filterLabel = appliedFilters[0];
+		} else if (appliedFilters?.length === 0) {
+			noFilter = true;
+			filterLabel = 'No Filter';
+		}
+	}
+
 	function clearDates() {
 		_scheduledFromDate = '';
 		_scheduledToDate = '';
@@ -67,10 +108,10 @@
 <div id="workOrdersFilterHolder">
 	<ButtonDropdown {isOpen} {toggle} class="dropdown" style="display: contents;">
 		<DropdownToggle tag="span" class="cursor-pointer">
-			<div class="text-center text-primary">
+			<div class="text-center text-primary" class:text-secondary={noFilter}>
 				<i class="bi bi-filter fs-3" />
 				<br />
-				<div class="filter-status">Status</div>
+				<div class="filter-status">{filterLabel}</div>
 			</div>
 		</DropdownToggle>
 		<DropdownMenu class="pb-3">
