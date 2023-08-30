@@ -9,6 +9,7 @@
 	import WorkOrderClass from '$lib/utils/class/WorkOrderClass';
 	import filterFieldsSetting from '$lib/stores/work-order/filterFieldsSetting';
 	import { isWorkingOffline } from '$lib/stores/connectivity';
+	import { toggleActiveId, activeWOListID } from '$lib/stores/work-order/activeWOListID';
 	import { WORK_ORDER_STATUS } from '$lib/utils/constants';
 
 	let filteredWOsInfo = '';
@@ -47,8 +48,9 @@
 				p3DefectsCount,
 				completedStepsCount
 			} = woData.getStepsCountDetails()}
+			{@const woIsActive = $activeWOListID === wo.id}
 
-			<ListGroupItem>
+			<ListGroupItem action active={woIsActive} on:click={() => toggleActiveId(wo.id)}>
 				<div class="work-order mt-2">
 					<div class="clearfix" style="height: 40px;">
 						<WorkOrderStatus
@@ -86,7 +88,7 @@
 
 					<div class="clearfix mt-1">
 						<div class="float-start">
-							<i class="bi bi-check-square-fill text-success text-opacity-75" />
+							<i class="bi bi-check-square-fill text-success bg-white" />
 							<small class="ms-1">{completedStepsCount}/{totaStepsCount}</small>
 
 							<span class="ms-2 badge rounded-pill bg-danger p1to3">P1</span>
@@ -145,6 +147,10 @@
 		font-size: 12px;
 		font-weight: bold;
 		color: #307dff;
+	}
+
+	:global(li.active) .wo-title {
+		color: #d7e7f0;
 	}
 
 	.p1to3 {

@@ -1,7 +1,9 @@
 <script>
+	import { activeWOListID } from '$lib/stores/work-order/activeWOListID';
 	let windowWidth = 0;
 
-	let hasActiveWO = false;
+	$: hasActiveWO = Boolean($activeWOListID);
+
 	$: displayFullWidth = windowWidth < 992 && hasActiveWO;
 	// $: console.log('windowWidth: ', windowWidth);
 	$: console.log('displayFullWidth: ', displayFullWidth);
@@ -26,7 +28,7 @@
 			hasActiveWO = true;
 		}}
 	>
-		<div class="mb-5">111</div>
+		<div class="mb-5">activeWOListID : {$activeWOListID}</div>
 		<span class=" float-end">rightz</span>
 		<div class="my-5">rightz</div>
 		<div class="my-5">rightz</div>
