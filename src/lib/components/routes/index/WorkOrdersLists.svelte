@@ -3,7 +3,7 @@
 	import { ListGroup, ListGroupItem } from 'sveltestrap';
 
 	import { WOLists, isLoadingWOLists } from '$lib/stores/work-order/workorderLists';
-	import { asDate } from '$lib/utils';
+	import { asDate, toastFeatureNotAvaiable } from '$lib/utils';
 
 	import WorkOrderStatus from '$lib/components/render/WorkOrderStatus.svelte';
 	import WorkOrderClass from '$lib/utils/class/WorkOrderClass';
@@ -127,6 +127,7 @@
 			class="btn btn-primary btn-sm mx-auto px-3"
 			style="--bs-btn-border-radius: 1rem;"
 			disabled={$isWorkingOffline}
+			on:click={toastFeatureNotAvaiable}
 		>
 			{$isWorkingOffline ? 'Go online to load more work orders' : 'Load More'}
 		</button>

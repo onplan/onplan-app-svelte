@@ -1,4 +1,9 @@
-import { DEFECT_PRIORITY, WORK_ORDER_STATUS, WORK_ORDER_STEP_STATUS } from '../constants';
+import {
+	DEFECT_PRIORITY,
+	WORK_ORDER_COMPLETION_MODE,
+	WORK_ORDER_STATUS,
+	WORK_ORDER_STEP_STATUS
+} from '../constants';
 
 /**
  * Class that have methods for extracting data from a Work Order object
@@ -13,9 +18,9 @@ export default class WorkOrderClass {
 	 * @param {WorkOrderType} wo - Work order object
 	 */
 	constructor(wo) {
-		if (!wo) {
-			throw Error('WorkOrderClass: workorder parameter is required.');
-		}
+		// if (!wo) {
+		// 	throw Error('WorkOrderClass: workorder parameter is required.');
+		// }
 		/**
 		 * Work order object
 		 *
@@ -70,14 +75,12 @@ export default class WorkOrderClass {
 	/**
 	 * Get work order status color based on WO's status
 	 *
-	 * @param {*} wo Work order object
 	 * @returns {string} Color
 	 */
 	getStatusColor() {
-		const wo = this.wo; // reference, make it shorter
 		let statusColor = '#ededed';
 
-		switch (wo.status) {
+		switch (this.wo.status) {
 			case WORK_ORDER_STATUS.notStarted:
 				statusColor = '#ffc107'; // status colors to use
 
@@ -98,6 +101,82 @@ export default class WorkOrderClass {
 		}
 
 		return statusColor;
+	}
+
+	/**
+	 * Get work order status color class based on WO's status
+	 *
+	 * @returns {string} Color class
+	 */
+	getStatusColorClass() {
+		let statusColorClass = '';
+
+		switch (this.wo.status) {
+			case WORK_ORDER_STATUS.inProgress:
+				statusColorClass = 'warning';
+				break;
+			case WORK_ORDER_STATUS.approved:
+				statusColorClass = 'success';
+				break;
+			case WORK_ORDER_STATUS.complete:
+				statusColorClass = 'success';
+				break;
+			case WORK_ORDER_STATUS.awaitingApproval:
+				statusColorClass = 'warning';
+				break;
+			case WORK_ORDER_STATUS.disapproved:
+				statusColorClass = 'danger';
+
+				break;
+			default:
+				statusColorClass = 'success';
+
+				break;
+		}
+
+		return statusColorClass;
+	}
+
+	/**
+	 * Get work order start button Label based on WO's status
+	 *
+	 * @returns {string} Label
+	 */
+	getStartBtnLabel() {
+		const wo = this.wo; // reference, make it shorter
+		let label = '';
+
+		switch (wo.status) {
+			case WORK_ORDER_STATUS.inProgress:
+				label = 'Continue Work Order';
+				break;
+			case WORK_ORDER_STATUS.approved:
+				label =
+					wo.customer.isWorkOrderFinalisationRequired === WORK_ORDER_COMPLETION_MODE.finalization
+						? 'Finalized'
+						: 'Approved';
+				break;
+			case WORK_ORDER_STATUS.complete:
+				label = 'Complete';
+				break;
+			case WORK_ORDER_STATUS.awaitingApproval:
+				label =
+					wo.customer.isWorkOrderFinalisationRequired === WORK_ORDER_COMPLETION_MODE.finalization
+						? 'Awaiting Finalization'
+						: 'Awaiting Approval';
+				break;
+			case WORK_ORDER_STATUS.disapproved:
+				label =
+					wo.customer.isWorkOrderFinalisationRequired === WORK_ORDER_COMPLETION_MODE.finalization
+						? 'Draft'
+						: 'Disapproved';
+				break;
+			default:
+				label = 'Start Work Order';
+				break;
+		}
+
+		return label;
 	}
 
 	/**
@@ -128,7 +207,11 @@ export default class WorkOrderClass {
 	 * 	p1DefectsCount: Number,
 	 * 	p2DefectsCount: Number,
 	 * 	p3DefectsCount: Number,
-	 * 	completedStepsCount: Number
+	 * 	notDoneStepsCount: Number,
+	 * 	notStartedStepsCount: Number,
+	 * 	inProgressStepsCount: Number,
+	 * 	completedStepsCount: Number,
+	 * 	remainingSteps: Number
 	 * }} Steps count details object
 	 *
 	 */
@@ -141,6 +224,9 @@ export default class WorkOrderClass {
 		let p2DefectsCount = 0;
 		let p3DefectsCount = 0;
 
+		let notDoneStepsCount = 0;
+		let notStartedStepsCount = 0;
+		let inProgressStepsCount = 0;
 		let completedStepsCount = 0;
 
 		for (let i = 0; i < totaStepsCount; i += 1) {
@@ -160,18 +246,93 @@ export default class WorkOrderClass {
 				}
 			}
 
-			if (wo.workOrderSteps[i].status === WORK_ORDER_STEP_STATUS.complete) {
-				completedStepsCount += 1;
+			switch (wo.workOrderSteps[i].status) {
+				case WORK_ORDER_STEP_STATUS.notDone:
+					notDoneStepsCount += 1;
+					break;
+
+				case WORK_ORDER_STEP_STATUS.notStarted:
+					notStartedStepsCount += 1;
+					break;
+
+				case WORK_ORDER_STEP_STATUS.inProgress:
+					inProgressStepsCount += 1;
+					break;
+
+				case WORK_ORDER_STEP_STATUS.complete:
+					completedStepsCount += 1;
+					break;
 			}
 		}
 
+		const remainingSteps = totaStepsCount - completedStepsCount - notDoneStepsCount;
+
 		return {
 			totaStepsCount,
+
 			p1DefectsCount,
 			p2DefectsCount,
 			p3DefectsCount,
-			completedStepsCount
+
+			notDoneStepsCount,
+			notStartedStepsCount,
+			inProgressStepsCount,
+			completedStepsCount,
+
+			remainingSteps
 		};
+	}
+
+	/**
+	 * Get estimated duration
+	 *
+	 * @returns {number} duration in hours
+	 */
+	getEstDuration() {
+		return parseInt(this.wo.duration, 10);
+	}
+
+	/**
+	 * Get actual duration
+	 *
+	 * @returns {number | null} duration in hours
+	 */
+	getActDuration() {
+		if (this.hasStarted()) {
+			const completedAt = this.wo.completedAt ? new Date(this.wo.completedAt) : new Date();
+			const startedAt = new Date(this.wo.startedAt);
+
+			let duration = parseInt(((completedAt - startedAt) / 1000 / 3600) * 10, 10) / 10;
+
+			// Don't show decimal places above 100
+			if (duration >= 100) {
+				duration = parseInt(duration, 10);
+			}
+
+			return duration;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns true if workorder already started.
+	 * Based on the `startedAt` property
+	 *
+	 * @returns {boolean}
+	 */
+	hasStarted() {
+		return this.wo.startedAt !== null;
+	}
+
+	/**
+	 * Returns true if workorder already completed.
+	 * Based on the `completedAt` property , Not by `status`
+	 *
+	 * @returns {boolean}
+	 */
+	hasCompleted() {
+		return this.wo.completedAt !== null;
 	}
 
 	// /**

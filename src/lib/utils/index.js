@@ -15,6 +15,7 @@
 import { cacheName } from '$lib/stores/sw';
 import { get } from 'svelte/store';
 import { MONTH_NAMES } from './constants';
+import { toast } from './toast-notification';
 
 /**
  * Clear applicaion cache,
@@ -63,18 +64,65 @@ export const nukeAppCache = async () => {
 };
 
 /**
- * Format Datetime
+ * Format Datetime to Date
  *
- * @param {string} Datetime
+ * @param {string} dateTime
  * @returns {string} Formatted date E.g.: `03 Sep 2021`
  */
-export const asDate = (date) => {
-	if (date) {
-		const jsDate = date.split(/[- T]/);
+export const asDate = (dateTime) => {
+	if (dateTime) {
+		const jsDate = dateTime.split(/[- T]/);
 		const month = MONTH_NAMES[parseInt(jsDate[1] - 1, 10)];
 
 		return `${jsDate[2]} ${month.MM} ${jsDate[0]}`;
 	}
 
 	return '';
+};
+
+/**
+ * Format Datetime to time
+ *
+ * @param {string} dateTime
+ * @returns  {string} Formatted time E.g.: `06:14`
+ */
+export const asTime = (dateTime) => {
+	if (dateTime) {
+		const jsTime = [];
+		jsTime.push(dateTime.substr(11, 2));
+		jsTime.push(dateTime.substr(14, 2));
+
+		return `${jsTime[0]}:${jsTime[1]}`;
+	}
+
+	return '';
+};
+
+/**
+ * Function to truncate text if length is too long to display
+ *
+ * @param {string} str String to truncate
+ * @param {number} length Length
+ * @param {string} ending Ending text
+ * @returns {string} Truncated version
+ */
+export const textTruncate = (str, length = 100, ending = '...') => {
+	if (str && str.length > length) {
+		return str.substring(0, length - ending.length) + ending;
+	}
+
+	return str;
+};
+
+/**
+ * TEMP function
+ */
+export const toastFeatureNotAvaiable = () => {
+	toast({
+		heading: 'To do Feature',
+		description: `The feature still not added to App.`,
+		type: 'info',
+		position: 'top-right',
+		removeAfter: 3000
+	});
 };
