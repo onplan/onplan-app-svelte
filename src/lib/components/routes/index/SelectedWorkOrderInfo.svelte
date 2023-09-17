@@ -13,7 +13,7 @@
 	$: displayFullWidth = windowWidth < 992 && hasActiveWO;
 	// $: console.log('windowWidth: ', windowWidth);
 	$: console.log('activeWOListID: ', $activeWOListID);
-	$: console.log('workOrderData: ', wo);
+	$: console.log('wo: ', wo);
 
 	// $: console.log('windowWidth: ', windowWidth);
 
@@ -249,18 +249,25 @@
 					<div class="col-12 mb-4 px-15px">
 						<div class="mt-2">
 							<div class="clearfix">
-								<h5 class="float-start card-title">Crew</h5>
-								<button class="btn float-end" style="margin-top: -8px">
+								<h5 class="float-start card-title">
+									Crew
+									<small class="fw-light">({wo?.users?.length || 0})</small>
+								</h5>
+								<button
+									class="btn float-end"
+									style="margin-top: -8px"
+									on:click={toastFeatureNotAvaiable}
+								>
 									<i class="bi bi-pencil-square fs-5" />
 								</button>
 							</div>
 							<div class="card">
 								<div class="card-body">
 									<ul class="list-group list-group-flush">
-										{#each ['Shane Mackay', 'Sriram Raman', 'William Lopez'] as crew}
+										{#each wo?.users as crew}
 											<li class="list-group-item px-0 d-flex align-items-center py-0">
 												<i class="bi bi-person-circle fs-3 text-primary" />
-												<span class="ms-3">{crew}</span>
+												<span class="ms-3">{crew.firstName} {crew.lastName}</span>
 											</li>
 										{:else}
 											<p class="mt-2 d-flex align-items-center justify-content-center">
@@ -277,115 +284,133 @@
 					<!-- documentList -->
 					<!--TODO:  TO BE ADDED -->
 
-					<!-- PPE Requirements/ ppeList -->
-					<!-- TODO: this is hidden if no PPEs -->
-					<div class="col-12 mb-4 px-15px">
-						<div class="mt-2">
-							<div class="clearfix">
-								<h5 class="float-start card-title">PPE Requirements</h5>
-							</div>
-							<div class="card mt-2">
-								<div class="card-body">
-									<div class="row">
-										{#each samplePPE as ppe}
-											<div class="col-12 col-md-6">
-												<div class="my-1">
-													<img src={ppe.ppeImage} width="34px" />
-													<span class="ms-3">{ppe.ppedescription}</span>
+					<!-- PPE Requirements/ ppeList (Hidden if no PPEs)-->
+					{#if wo?.workOrderPpe?.length}
+						<div class="col-12 mb-4 px-15px">
+							<div class="mt-2">
+								<div class="clearfix">
+									<h5 class="float-start card-title">
+										PPE Requirements
+										<small class="fw-light">({wo?.workOrderPpe?.length})</small>
+									</h5>
+								</div>
+								<div class="card mt-2">
+									<div class="card-body">
+										<div class="row">
+											{#each wo?.workOrderPpe as woPpe}
+												{@const ppeDescription = woPpe.ppe.ppedescription.replace('and', '&amp;')}
+												<!-- TODO: Base URL should be from `PUBLIC_ADVANTAGEURL` env var, hard coded for testing-->
+												<!-- TODO: `ppeImg` should be base64 like: => const ppeBase64Image = await getCachedPpeIcon(ppeReference.ppe.ppeImage.replace('http:', 'https:'), ppeId);-->
+												{@const ppeImg = `https://qa.asseton-tech.com${woPpe.ppe.ppeImage}`}
+
+												<div class="col-12 col-md-6">
+													<div class="my-1">
+														<!-- svelte-ignore a11y-missing-attribute -->
+														<img src={ppeImg} width="34px" />
+														<span class="ms-3">{@html ppeDescription}</span>
+													</div>
 												</div>
-											</div>
-										{/each}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Hazards and Controls / hazardsList -->
-					<!-- TODO: this is hidden if no H & C -->
-					<div class="col-12 mb-4 px-15px">
-						<div class="mt-2">
-							<div class="clearfix">
-								<h5 class="float-start card-title">Hazards and Controls</h5>
-							</div>
-							<div class="card mt-2">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-12 mb-3">
-											<!-- svelte-ignore a11y-missing-attribute -->
-											<img
-												src="https://qa.asseton-tech.com/img/advices/doc-warning.png"
-												width="34px"
-												class="float-start"
-											/>
-											<p class="float-end" style="width: calc(100% - 50px)">
-												<strong>Dust.</strong>
-												<span>Wear a dust mask appropriate to the task being undertaken</span>
-											</p>
-										</div>
-
-										<div class="col-12 mb-3">
-											<!-- svelte-ignore a11y-missing-attribute -->
-											<img
-												src="https://qa.asseton-tech.com/img/advices/doc-warning.png"
-												width="34px"
-												class="float-start"
-											/>
-											<p class="float-end" style="width: calc(100% - 50px)">
-												<strong>Excessive Noise.</strong>
-												<span>
-													Wear correct hearing protection and communicate to effected work parties.
-												</span>
-											</p>
+											{/each}
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{/if}
+
+					<!-- Hazards and Controls / hazardsList (Hidden if no H & C) -->
+					{#if wo?.workOrderHazards?.length}
+						<div class="col-12 mb-4 px-15px">
+							<div class="mt-2">
+								<div class="clearfix">
+									<h5 class="float-start card-title">
+										Hazards and Controls
+										<small class="fw-light">({wo?.workOrderHazards?.length})</small>
+									</h5>
+								</div>
+								<div class="card mt-2">
+									<div class="card-body">
+										<div class="row">
+											{#each wo?.workOrderHazards as hazard}
+												<!-- TODO: Base URL should be from `PUBLIC_ADVANTAGEURL` env var, hard coded for testing-->
+												{@const ppeImg = `https://qa.asseton-tech.com${hazard.icon}`}
+
+												<!-- Remove repeated hazard name at the front of the some hazard templates - error in legacy data -->
+												{@const hazardTemplate =
+													hazard.template.substring(0, hazard.name.length) === hazard.name
+														? hazard.template.substring(hazard.name.length + 2)
+														: hazard.template}
+
+												<div class="col-12 mb-3">
+													<!-- svelte-ignore a11y-missing-attribute -->
+													<img src={ppeImg} width="34px" class="float-start" />
+													<p class="float-end" style="width: calc(100% - 50px)">
+														<strong>{hazard.name}.</strong>
+														<span>{hazardTemplate}</span>
+													</p>
+												</div>
+											{/each}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/if}
 
 					<!-- Tools and Equipment / toolsList -->
-					<div class="col-12 mb-4 px-15px">
-						<div class="mt-2">
-							<div class="clearfix">
-								<h5 class="float-start card-title">Tools and Equipment</h5>
-							</div>
-							<div class="card mt-2">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-12 mb-2">
-											<i class="bi bi-tools fs-3" />
-											<p class="float-end" style="width: calc(100% - 50px)">
-												<strong>Tunnel-specific handled radio</strong>
-												<span>
-													Intrinsically safe - Next to MX4 station, upper floor of braaker shop (×
-													1)
-												</span>
-											</p>
-										</div>
-
-										<div class="col-12 mb-2">
-											<i class="bi bi-tools fs-3" />
-											<p class="float-end" style="width: calc(100% - 50px)">
-												<strong>MX4</strong>
-												<span> Upper floor of breaker shop (× 1) </span>
-											</p>
+					{#if wo?.workOrderTools?.length}
+						<div class="col-12 mb-4 px-15px">
+							<div class="mt-2">
+								<div class="clearfix">
+									<h5 class="float-start card-title">
+										Tools and Equipment
+										<small class="fw-light">({wo?.workOrderTools?.length})</small>
+									</h5>
+								</div>
+								<div class="card mt-2">
+									<div class="card-body">
+										<div class="row">
+											{#each wo?.workOrderTools as woTool}
+												<div class="col-12 mb-2">
+													<i class="bi bi-tools ms-2 fs-4" />
+													<p class="float-end" style="width: calc(100% - 50px)">
+														{#if woTool.tool.manufacturerToolNumber === '-'}
+															<strong>{woTool.tool.description}</strong>
+															<span> (× {woTool.quantity}) </span>
+														{:else}
+															<strong>{woTool.tool.manufacturerToolNumber}.</strong>
+															<span>
+																{woTool.tool.description} (× {woTool.quantity})
+															</span>
+														{/if}
+													</p>
+												</div>
+											{/each}
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					{/if}
 
 					<!-- partsList -->
 					<!--TODO:  TO BE ADDED -->
 
 					<!-- defectList -->
 					<!--TODO:  TO BE ADDED -->
+
+					<div class="container text-center" style="margin-bottom: 50px;">
+						<button class={`btn btn-sm btn-${statusColorClass}`}>
+							{startBtnLabel}
+						</button>
+					</div>
 				</div>
 			</div>
 		{:else}
-			<p class="text-center">Select a work order</p>
+			<p class="text-center">
+				<i class="bi bi-hand-index" />
+				Select a work order
+			</p>
 		{/if}
 	</div>
 </div>
