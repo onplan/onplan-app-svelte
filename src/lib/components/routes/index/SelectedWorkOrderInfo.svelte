@@ -453,7 +453,7 @@
 		height: calc(100% - 110px);
 		z-index: 1030;
 		width: 100%;
-		animation: 0.3s display-in-full-width-transition---zzzzz;
+		animation: 0.3s display-in-full-width-transition;
 	}
 
 	@keyframes display-in-full-width-transition {
