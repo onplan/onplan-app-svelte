@@ -1,5 +1,12 @@
 <script>
+	import { INDEX_PAGE_TABS } from '$lib/utils/constants';
+	export let activeTab; // binded to parent
 	import { Icon } from 'sveltestrap';
+
+	const changeActiveTab = (tabName) => {
+		activeTab = tabName;
+	};
+	// $: console.log('activeTab: ', activeTab);
 </script>
 
 <!--
@@ -9,11 +16,27 @@
 -->
 <nav class="navbar fixed-bottom py-0 border-top bg-white" style="height: 50px;">
 	<div class="row w-100 h-100 pt-2 mx-0 text-center bg-secondary bg-opacity-10">
-		<div class="col-6 text-primary">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			class={`col-6 ${
+				activeTab === INDEX_PAGE_TABS.workorders
+					? 'text-primary'
+					: 'cursor-pointer text-secondary text-opacity-75'
+			}`}
+			on:click={() => changeActiveTab(INDEX_PAGE_TABS.workorders)}
+		>
 			<Icon name="clipboard-check-fill" class="fs-5" />
 			<span class="d-none d-md-inline-block d-lg-inline-block">Work Orders</span>
 		</div>
-		<div class="col-6 text-secondary text-opacity-75">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
+		<div
+			class={`col-6 ${
+				activeTab === INDEX_PAGE_TABS.outstanding_defects
+					? 'text-primary'
+					: 'cursor-pointer text-secondary text-opacity-75'
+			}`}
+			on:click={() => changeActiveTab(INDEX_PAGE_TABS.outstanding_defects)}
+		>
 			<Icon name="exclamation-octagon-fill" class="fs-5" />
 			<span class="d-none d-md-inline-block d-lg-inline-block">Outstanding Defects</span>
 			<span class="notify-badge" style="display: inline;">21</span>

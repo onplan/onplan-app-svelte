@@ -1,7 +1,6 @@
 <script>
-	import { activeWOListID } from '$lib/stores/work-order/activeWOListID';
+	import { activeWOListID, setActiveId } from '$lib/stores/work-order/activeWOListID';
 	import { WOLists } from '$lib/stores/work-order/workorderLists';
-	import samplePPE from '$lib/temp/samplePPE'; // to be deleted
 	import { asDate, asTime, textTruncate, toastFeatureNotAvaiable } from '$lib/utils';
 	import WorkOrderClass from '$lib/utils/class/WorkOrderClass';
 	let windowWidth = 0;
@@ -28,7 +27,7 @@
 		<span
 			class="text-primary d-md-inline"
 			on:click={() => {
-				hasActiveWO = false;
+				setActiveId(null);
 			}}>&lt; Work Orders</span
 		>
 	</div>
@@ -407,7 +406,7 @@
 				</div>
 			</div>
 		{:else}
-			<p class="text-center">
+			<p class="text-center text-secondary" style="position: relative; top:15vh;">
 				<i class="bi bi-hand-index" />
 				Select a work order
 			</p>

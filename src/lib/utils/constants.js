@@ -64,3 +64,8 @@ export const APP_PATHNAMES = {
 	workorder: '/workorder',
 	profile: '/profile'
 };
+
+export const INDEX_PAGE_TABS = {
+	workorders: 'workorders',
+	outstanding_defects: 'outstanding_defects'
+};
