@@ -1,12 +1,13 @@
 <script>
+	import {
+		activeIndexPageTab,
+		changeToWorkordersTab,
+		changeToOutstandingDefectTab
+	} from '$lib/stores/activeIndexPageTab';
 	import { INDEX_PAGE_TABS } from '$lib/utils/constants';
-	export let activeTab; // binded to parent
 	import { Icon } from 'sveltestrap';
 
-	const changeActiveTab = (tabName) => {
-		activeTab = tabName;
-	};
-	// $: console.log('activeTab: ', activeTab);
+	$: console.log('activeIndexPageTab: ', $activeIndexPageTab);
 </script>
 
 <!--
@@ -19,11 +20,11 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class={`col-6 ${
-				activeTab === INDEX_PAGE_TABS.workorders
+				$activeIndexPageTab === INDEX_PAGE_TABS.workorders
 					? 'text-primary'
 					: 'cursor-pointer text-secondary text-opacity-75'
 			}`}
-			on:click={() => changeActiveTab(INDEX_PAGE_TABS.workorders)}
+			on:click={changeToWorkordersTab}
 		>
 			<Icon name="clipboard-check-fill" class="fs-5" />
 			<span class="d-none d-md-inline-block d-lg-inline-block">Work Orders</span>
@@ -31,11 +32,11 @@
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class={`col-6 ${
-				activeTab === INDEX_PAGE_TABS.outstanding_defects
+				$activeIndexPageTab === INDEX_PAGE_TABS.outstanding_defects
 					? 'text-primary'
 					: 'cursor-pointer text-secondary text-opacity-75'
 			}`}
-			on:click={() => changeActiveTab(INDEX_PAGE_TABS.outstanding_defects)}
+			on:click={changeToOutstandingDefectTab}
 		>
 			<Icon name="exclamation-octagon-fill" class="fs-5" />
 			<span class="d-none d-md-inline-block d-lg-inline-block">Outstanding Defects</span>

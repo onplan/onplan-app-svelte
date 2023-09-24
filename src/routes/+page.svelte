@@ -13,8 +13,7 @@
 	import authUser from '$lib/stores/authUser';
 	import { onMount } from 'svelte';
 	import { INDEX_PAGE_TABS } from '$lib/utils/constants';
-
-	let activeTab = INDEX_PAGE_TABS.workorders;
+	import { activeIndexPageTab } from '$lib/stores/activeIndexPageTab';
 	onMount(() => {
 		// If not authenticated, do not continue
 		if (!$authUser) {
@@ -25,12 +24,12 @@
 
 <div>
 	<TopNavBar />
-	<BottomNavBar bind:activeTab />
+	<BottomNavBar />
 
 	<div class="main-content">
 		<WorkOrdersController />
 		<div class="row">
-			{#if activeTab === INDEX_PAGE_TABS.workorders}
+			{#if $activeIndexPageTab === INDEX_PAGE_TABS.workorders}
 				<!-- Work order lists -->
 				<div class="col-md-12 col-lg-5 col-12">
 					<WorkOrdersLists />
