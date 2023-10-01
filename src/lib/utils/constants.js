@@ -66,6 +66,6 @@ export const APP_PATHNAMES = {
 };
 
 export const INDEX_PAGE_TABS = {
-	workorders: 'workorders',
-	outstanding_defects: 'outstanding_defects'
+	workorders: 'Work Orders',
+	outstanding_defects: 'Outstanding Defects'
 };

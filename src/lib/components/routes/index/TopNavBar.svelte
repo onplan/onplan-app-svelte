@@ -14,6 +14,7 @@
 	import { fade } from 'svelte/transition';
 	import authUser from '$lib/stores/authUser';
 	import installPWA from '$lib/utils/installPWA';
+	import { activeIndexPageTab } from '$lib/stores/activeIndexPageTab';
 
 	$: console.log(`isOnline: ${$isOnline} - isActuallyOnline: ${$isActuallyOnline}`);
 	// $: console.log(`workingOfflineSinceTimer: ${$workingOfflineSinceTimer}`); // Run every second
@@ -29,7 +30,9 @@
 	<!-- Header, wifi icon, profile icon -->
 	<div class="container-fluid my-1">
 		<div class="float-start">
-			<h2 class="ms-2">Work Orders</h2>
+			<h2 class="ms-2">
+				{$activeIndexPageTab}
+			</h2>
 		</div>
 		<div class="float-end">
 			{#if $isWorkingOffline && $workingOfflineSinceTimer}

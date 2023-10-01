@@ -27,7 +27,9 @@
 			on:click={changeToWorkordersTab}
 		>
 			<Icon name="clipboard-check-fill" class="fs-5" />
-			<span class="d-none d-md-inline-block d-lg-inline-block">Work Orders</span>
+			<span class="d-none d-md-inline-block d-lg-inline-block">
+				{INDEX_PAGE_TABS.workorders}
+			</span>
 		</div>
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
@@ -39,7 +41,9 @@
 			on:click={changeToOutstandingDefectTab}
 		>
 			<Icon name="exclamation-octagon-fill" class="fs-5" />
-			<span class="d-none d-md-inline-block d-lg-inline-block">Outstanding Defects</span>
+			<span class="d-none d-md-inline-block d-lg-inline-block">
+				{INDEX_PAGE_TABS.outstanding_defects}
+			</span>
 			<span class="notify-badge" style="display: inline;">21</span>
 		</div>
 	</div>
