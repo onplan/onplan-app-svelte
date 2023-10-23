@@ -1,21 +1,14 @@
 <script>
 	import RecommendedActionDot from '$lib/components/render/RecommendedActionDot.svelte';
 	import authUser from '$lib/stores/authUser';
+	import { outstandingDefectLists } from '$lib/stores/work-order/outstandingDefectLists';
 	import { WOLists } from '$lib/stores/work-order/workorderLists';
 	import { asDate, textTruncate } from '$lib/utils';
 	import { ListGroup, ListGroupItem } from 'sveltestrap';
 
-	console.log('WOListszz: ', $WOLists);
+	// console.log('WOListszz: ', $WOLists);
 
-	// TODO: this should be from a store, dependent on $WOLists
-	$: defects = $WOLists
-		.map((wo) => wo.workOrderSteps)
-		.flat()
-		.map((step) => step.defects)
-		.filter((defects) => defects.length)
-		.flat();
-
-	$: console.log('defects: ', defects);
+	$: console.log('outstandingDefectLists: ', $outstandingDefectLists);
 </script>
 
 <!--
@@ -27,7 +20,7 @@
 -->
 <div style="min-height: 100vh !important;">
 	<ListGroup flush class="mt-md-1">
-		{#each defects as defect}
+		{#each $outstandingDefectLists as defect}
 			<ListGroupItem action>
 				{@const completedBy = $WOLists
 					.map((wo) => wo.users)

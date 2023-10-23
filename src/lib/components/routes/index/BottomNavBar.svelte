@@ -4,6 +4,7 @@
 		changeToWorkordersTab,
 		changeToOutstandingDefectTab
 	} from '$lib/stores/activeIndexPageTab';
+	import { outstandingDefectLists } from '$lib/stores/work-order/outstandingDefectLists';
 	import { INDEX_PAGE_TABS } from '$lib/utils/constants';
 	import { Icon } from 'sveltestrap';
 
@@ -44,7 +45,12 @@
 			<span class="d-none d-md-inline-block d-lg-inline-block">
 				{INDEX_PAGE_TABS.outstanding_defects}
 			</span>
-			<span class="notify-badge" style="display: inline;">21</span>
+
+			{#if $outstandingDefectLists?.length}
+				<span class="notify-badge" style="display: inline;">
+					{$outstandingDefectLists.length}
+				</span>
+			{/if}
 		</div>
 	</div>
 </nav>
