@@ -120,9 +120,41 @@ export const textTruncate = (str, length = 100, ending = '...') => {
 export const toastFeatureNotAvaiable = () => {
 	toast({
 		heading: 'To do Feature',
-		description: `The feature still not added to App.`,
+		description: `This feature still not added to App.`,
 		type: 'info',
 		position: 'top-right',
 		removeAfter: 3000
 	});
 };
+
+// /**
+//  * Return true if user can fetch latest WO lists from the server
+//  *
+//  */
+// export const shouldUpdateWorkOrders = () => {
+// 	if (!isInitialWorkOrderLoad) {
+// 		return true;
+// 	}
+
+// 	isInitialWorkOrderLoad = false;
+
+// 	const justLoggedIn = document.referrer.includes('/login.html');
+
+// 	if (justLoggedIn) {
+// 		return true;
+// 	}
+
+// 	const now = Number(new Date());
+// 	const tenMinutes = 1000 * 60 * 10;
+// 	const lastIndexLoad = Number(localStorage.getItem(LAST_INDEX_LOAD));
+
+// 	if (!lastIndexLoad || now > lastIndexLoad + tenMinutes) {
+// 		preSelectWorkOrder(true); // what is preSelectWorkOrder ?
+
+// 		return true;
+// 	}
+
+// 	preSelectWorkOrder(false);
+
+// 	return false;
+// }

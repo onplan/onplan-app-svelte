@@ -1,8 +1,17 @@
 <script>
+	import { activeDefectListID } from '$lib/stores/work-order/activeDefectListID';
+
 	// your script goes here
 </script>
 
-<div id="defectDisplayCard">Selected defect here...</div>
+<div id="defectDisplayCard">
+	<p class="text-center text-secondary" style="position: relative; top:15vh;">
+		<i class="bi bi-hand-index" />
+		<!-- Select a defect -->
+		Selected defect ID: {$activeDefectListID}
+	</p>
+	<!-- CONTINUE HERE. -->
+</div>
 
 <style>
 	#defectDisplayCard {

@@ -1,6 +1,10 @@
 <script>
 	import RecommendedActionDot from '$lib/components/render/RecommendedActionDot.svelte';
 	import authUser from '$lib/stores/authUser';
+	import {
+		activeDefectListID,
+		toggleActiveDefectId
+	} from '$lib/stores/work-order/activeDefectListID';
 	import { outstandingDefectLists } from '$lib/stores/work-order/outstandingDefectLists';
 	import { WOLists } from '$lib/stores/work-order/workorderLists';
 	import { asDate, textTruncate } from '$lib/utils';
@@ -9,6 +13,7 @@
 	// console.log('WOListszz: ', $WOLists);
 
 	$: console.log('outstandingDefectLists: ', $outstandingDefectLists);
+	$: console.log($activeDefectListID);
 </script>
 
 <!--
@@ -21,12 +26,17 @@
 <div style="min-height: 100vh !important;">
 	<ListGroup flush class="mt-md-1">
 		{#each $outstandingDefectLists as defect}
-			<ListGroupItem action>
-				{@const completedBy = $WOLists
-					.map((wo) => wo.users)
-					.flat(1)
-					.find((user) => user.id === Number(defect.workOrderStep?.completedBy))}
+			{@const defectIsActive = $activeDefectListID === defect.id}
+			{@const completedBy = $WOLists
+				.map((wo) => wo.users)
+				.flat(1)
+				.find((user) => user.id === Number(defect.workOrderStep?.completedBy))}
 
+			<ListGroupItem
+				action
+				active={defectIsActive}
+				on:click={() => toggleActiveDefectId(defect.id)}
+			>
 				<div style="min-height: 60px">
 					<div style="padding-left:6px; padding-bottom: 4px;">
 						<RecommendedActionDot recommendedActionName={defect.recommendedAction.name} />
@@ -55,7 +65,6 @@
 							{defect?.workOrderNumber || ''}
 						</span>
 
-						<!-- CONTINUE THIS PART! -->
 						{#if completedBy}
 							{@const completedByText =
 								$authUser.id === completedBy.id
@@ -95,7 +104,7 @@
 		font-weight: 500;
 	}
 
-	tr.selected .defect-completed-by-login-user {
+	:global(li.active) .defect-completed-by-login-user {
 		color: white !important;
 	}
 

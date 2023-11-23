@@ -18,7 +18,12 @@
 			<span class="input-group-text">
 				<i class="bi bi-search" />
 			</span>
-			<input type="text" class="form-control shadow-none" />
+			<input
+				type="text"
+				class="form-control shadow-none"
+				placeholder="Search"
+				on:click={toastFeatureNotAvaiable}
+			/>
 		</div>
 	</div>
 

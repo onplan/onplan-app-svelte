@@ -13,9 +13,9 @@
 	// Todo: Options should come from cached Asset lists
 	let assetItems = [
 		{ value: 0, label: 'All' },
-		{ value: 1, label: 'One' },
-		{ value: 2, label: 'Two' },
-		{ value: 3, label: 'L ThreeL ThreeL ThreeL Three L Three33 3 long' }
+		{ value: 1, label: 'Truck 1' },
+		{ value: 2, label: 'Truck 2' },
+		{ value: 3, label: 'Truck 3' }
 	];
 	const statusItems = Object.entries(WORK_ORDER_STATUS).map(([value, label]) => ({
 		value,

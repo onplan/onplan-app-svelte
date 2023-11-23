@@ -47,7 +47,7 @@ export const MONTH_NAMES = [
  * Default Filter fields selected values
  */
 export const DEFAULT_FILTER_FIELDS_SETTING = {
-	myJobsFilter: true,
+	myJobsFilter: false, // TODO: return to true
 	assetFilter: 0,
 	statusFilter: ['notStarted', 'inProgress', 'disapproved'],
 	scheduledFromDate: null,

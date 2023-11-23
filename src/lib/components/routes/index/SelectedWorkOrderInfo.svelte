@@ -132,7 +132,11 @@
 						</div>
 					</div>
 					<div class="float-end">
-						<button class={`btn btn-sm btn-${statusColorClass}`} bind:offsetWidth={startBtnWidth}>
+						<button
+							class={`btn btn-sm btn-${statusColorClass}`}
+							bind:offsetWidth={startBtnWidth}
+							on:click={toastFeatureNotAvaiable}
+						>
 							{startBtnLabel}
 						</button>
 					</div>
@@ -182,7 +186,6 @@
 						</div>
 					</div>
 
-					<!-- CONTINUE HERE... -->
 					<!-- Schedule -->
 					<div class="col-12 mb-4 px-15px">
 						<div class="infoCard" style="height: 100%">
@@ -399,7 +402,7 @@
 					<!--TODO:  TO BE ADDED -->
 
 					<div class="container text-center" style="margin-bottom: 50px;">
-						<button class={`btn btn-sm btn-${statusColorClass}`}>
+						<button class={`btn btn-sm btn-${statusColorClass}`} on:click={toastFeatureNotAvaiable}>
 							{startBtnLabel}
 						</button>
 					</div>

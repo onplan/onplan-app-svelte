@@ -148,7 +148,7 @@
 				{/if}
 
 				<!-- TODO: create webGL state source.... -->
-				<div class="text-danger">Your browser does not support WebGL, 3D images may not load</div>
+				<!-- <div class="text-danger">Your browser does not support WebGL, 3D images may not load</div> -->
 			</div>
 		</form>
 	</div>
