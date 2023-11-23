@@ -74,7 +74,8 @@ const filterDates = (currentWorkOrder) => {
 		dateToCheck.getMonth() === currentWorkOrderDate.getMonth() &&
 		dateToCheck.getFullYear() === currentWorkOrderDate.getFullYear();
 
-	if (scheduledTo === '' && scheduledFrom === '') {
+	// if (scheduledTo === '' && scheduledFrom === '') {
+	if (!scheduledTo && !scheduledFrom) {
 		return true;
 	}
 
