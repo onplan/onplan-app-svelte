@@ -7,6 +7,7 @@
 	import { nukeAppCache } from '$lib/utils';
 	import authUser from '$lib/stores/authUser';
 	import sampleAuthUserObj from '$lib/temp/sampleAuthUserObj';
+	import { loadWorkOrders } from '$lib/stores/work-order/workorderLists';
 
 	// $: console.log($authUser);
 
@@ -36,6 +37,7 @@
 		setTimeout(() => {
 			authUser.login(sampleAuthUserObj);
 			authenticating = false;
+			loadWorkOrders(); // 1st trigger after login
 		}, 3000);
 	}
 </script>
